@@ -1,35 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Platform} from 'react-native';
-import deviceModel from './src/images/skin nexus 4 device.png';
+//import { StatusBar } from 'expo-status-bar';
+import React, {useState} from 'react';
+import { StyleSheet, View, Image} from 'react-native';
+import { Button} from 'react-native-elements';
+
+import LoginADM from './src/pages/LoginADM.js';
 import logo from './src/images/logo maisAcai fundo transparente.png';
+import deviceModel from './src/images/skin nexus 4 device.png';
 
 export default function App() {
 
-  return (
+    const [entrarComoADM, alterarValorADM] = useState(null);
 
-    <View style={styles.container}>
-        
-          <Image source={deviceModel} style={{position: 'relative', zIndex: 0, height: 685, width: 360, margin: 0 }} />
+    return (
+        <View style={styles.container}>
+            <Image source={deviceModel} style={styles.celular} />
 
-          <View style={styles.loginBackground}>
-              <Image source={logo} style={{position: 'relative', width: 50, height: 40 }} />
+            {/*esse View representa o fundo roxo */}
+            <View style={styles.loginBackground}>
 
-              <Text style={styles.texto}>Login: </Text>
-              <TextInput placeholder=" Digite seu nickname" style={styles.input} />
+                { ( entrarComoADM == true) &&( <LoginADM /> ) }
 
-              <Text style={styles.texto}>Senha: </Text>
-              <TextInput placeholder=" Digite sua senha" style={styles.input} />
-              {/* <StatusBar style="auto" />  */}
-               
-              <TouchableOpacity style={ [styles.loginButton, styles.boxShadow]}>
-                  <Text style={styles.loginText}>Entrar</Text>
-              </TouchableOpacity>
+                { ( entrarComoADM == null) &&(
+                    <React.Fragment>
+                        <Image source={logo} style={{position: 'absolute', width: 50, height: 40, top: '3%', right: '3%'}} />
+                        
+                        <View style={styles.clienteIcone} leftIcon={{type: "font-awesome", name:"user"}}></View>
+                        
+                        <View style={styles.clienteIcone} leftIcon={{type: "font-awesome", name:"user"}}></View>
+                     
+                        <Button title="entrar" onPress={ ()=>alterarValorADM(true) }/>
+                    </React.Fragment>
+                )}
+            </View>
 
-              
-          </View>
-        
-    </View>
-  );
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -40,16 +45,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center'
   },
-  texto: {
-      color: 'white',
-      marginTop: '10%',
-      marginLeft: '-73%'
-  },
-  input: {
-      backgroundColor: 'white',
-      width: '90%',
-      height: '9%',
-      marginTop: '3%'
+  clienteIcone: {
+    
+      marginTop: '3%',
+      marginBottom: '10%',
+      width: '40%',
+      height: '25%',
+      borderRadius: '50%',
+      backgroundColor: 'white'
   },
   loginBackground: {
       position: 'absolute',
@@ -58,44 +61,10 @@ const styles = StyleSheet.create({
       alignItems: "center", 
       paddingTop: '20%',
       paddingBotom: '10%',
-      zIndex: 5, 
       height: 497, 
       width: 283,
       marginLeft: '-2%',
       marginTop: '-2%'
   },
-  loginButton: {
-    marginTop: '15%',
-    width: '90%',
-    height: '10%',
-    backgroundColor: '#c001a7',
-    borderRadius: '5%',
-    boxShadow: "50 50 20 40 #000000",
-    justifyContent: 'center',
-    textAlign: 'center'
-  },
-  loginText: {
-    fontSize: 27,
-    color: 'white'
-  },
-  boxShadow: (Platform.OS === "android") ? { elevation: 60, boxShadow: '#52006A' } : shadowBoxForIOS(10, 10, '#52006A', 0.8, 3)
-
+  celular: {position: 'relative', height: 685, width: 360, margin: 0 }
 });
-
-
-
-function shadowBoxForIOS ( 
-  xOffset, 
-  yOffset, 
-  shadowColorIos,
-  shadowOpacity, 
-  shadowRadius ) {
- 
-   return {
-        shadowColor: shadowColorIos,
-        shadowOffset: {width: xOffset, height: yOffset},
-        shadowOpacity,
-        shadowRadius,
-   };
-
-};
