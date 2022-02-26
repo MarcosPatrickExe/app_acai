@@ -1,15 +1,15 @@
 //import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, View, Image} from 'react-native';
-import { Button} from 'react-native-elements';
-
+import { Button, Text} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome'
 import LoginADM from './src/pages/LoginADM.js';
-import logo from './src/images/logo maisAcai fundo transparente.png';
+import logo from './src/images/MaisAcai-logo.png';
 import deviceModel from './src/images/skin nexus 4 device.png';
 
 export default function App() {
 
-    const [entrarComoADM, alterarValorADM] = useState(null);
+    const [entrarComo, alterarValorADM] = useState('ADM');
 
     return (
         <View style={styles.container}>
@@ -18,17 +18,23 @@ export default function App() {
             {/*esse View representa o fundo roxo */}
             <View style={styles.loginBackground}>
 
-                { ( entrarComoADM == true) &&( <LoginADM /> ) }
+                { ( entrarComo == "ADM") &&( <LoginADM telaInicial={alterarValorADM}  /> ) }
 
-                { ( entrarComoADM == null) &&(
+                { ( entrarComo == null) &&(
                     <React.Fragment>
                         <Image source={logo} style={{position: 'absolute', width: 50, height: 40, top: '3%', right: '3%'}} />
                         
-                        <View style={styles.clienteIcone} leftIcon={{type: "font-awesome", name:"user"}}></View>
+                        <View style={styles.clienteIcone} onClick={ ()=>alterarValorADM("cliente") }>
+                              <Icon name="user-circle" size={110} color="white" />
+                              <Text style={{color: "white"}}>cliente</Text>
+                        </View>
                         
-                        <View style={styles.clienteIcone} leftIcon={{type: "font-awesome", name:"user"}}></View>
+                        <View style={styles.clienteIcone} onClick={ ()=>alterarValorADM("ADM") }>
+                              <Icon name="user" size={110} color="white" />
+                              <Text style={{color: "white"}}>admninistrador</Text>
+                        </View>
                      
-                        <Button title="entrar" onPress={ ()=>alterarValorADM(true) }/>
+                       {/*  <Button title="entrar" onPress={ ()=>alterarValorADM(true) }/>  */}
                     </React.Fragment>
                 )}
             </View>
@@ -46,13 +52,14 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
   },
   clienteIcone: {
-    
-      marginTop: '3%',
-      marginBottom: '10%',
-      width: '40%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '15%',
+      marginBottom: '23%', 
+      width: '38%',
       height: '25%',
-      borderRadius: '50%',
-      backgroundColor: 'white'
+      borderRadius: 80,
+      backgroundColor: 'transparent'
   },
   loginBackground: {
       position: 'absolute',
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
     //  justifyContent: "center",
       alignItems: "center", 
       paddingTop: '20%',
-      paddingBotom: '10%',
+      paddingBottom: '10%',
       height: 497, 
       width: 283,
       marginLeft: '-2%',

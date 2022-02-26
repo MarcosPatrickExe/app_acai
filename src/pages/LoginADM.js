@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Platform, StyleSheet, TouchableOpacity} from 'react-native';
-import {Text, Input} from 'react-native-elements';
+import {Text, Input, Button} from 'react-native-elements';
 
 class LoginADM extends React.Component {
     
@@ -19,15 +19,16 @@ class LoginADM extends React.Component {
     }
 
     render(){
+
         return (
            <View>
                 <Text style={styles.titulo} h2> Bem-vindo!</Text>
 
                 <Text style={styles.subTitulo} >Entre com sua conta de admninistrador</Text> 
 
-                {/*elemeto "text" é um componente pertencente ao react-native-elements */}
+                {/*elemeto "text" e "Input" é um componente pertencente ao react-native-elements */}
                 <Text style={styles.texto}>Login: </Text>
-                <Input leftIcon={{type: "font-awesome", name: "envelope"}} 
+                <Input leftIcon={{type: "font-awesome", name: "envelope", color:'white'}} 
                             placeholder=" Digite seu nickname" 
                                 style={styles.input} 
                                     onChangeText ={ (value)=>{ 
@@ -41,19 +42,45 @@ class LoginADM extends React.Component {
                 />
 
                 <Text style={styles.texto}> Senha: </Text>
-                <Input leftIcon={{type: "font-awesome", name:"lock"}} 
+                <Input leftIcon={{type: "font-awesome", name:"lock", color:'white'}} 
                             placeholder=" Digite sua senha" 
                                 style={styles.input}
-                                secureTextEntry={true} />
+                                secureTextEntry={true} 
+                                onChangeText= { 
+                                    (valor)=>{  
+                                        this.setState({
+                                            senhaADM: valor,
+                                            ...this.state
+                                        })
+                                    }} />
                 {/* <StatusBar style="auto" />  */}
                 
-                <TouchableOpacity 
-                     onClick={ ()=> this.atualizarEstado(this.state.emailADM, this.state.senhaADM) }
-                          style={ [styles.loginButton, 
-                                         styles.boxShadow]
-                          }>
-                            <Text style={styles.loginText}>Entrar</Text>
-                </TouchableOpacity>
+                <Button onClick={ ()=> this.atualizarEstado(this.state.emailADM, this.state.senhaADM) }
+                     style={ { marginTop: '10%',  marginBottom: '10%'}}
+                     buttonStyle ={{ backgroundColor: '#c001a7', borderRadius: 50, marginTop: '9%', height: 35}}     
+                     icon={ {name: 'sign-in', type: 'font-awesome', size: 20, color: 'white'} }
+                     title= "Entrar"
+                />
+
+
+                <Button onClick={ 
+                                  ()=>{  this.props.telaInicial(null); }
+                                }
+                     buttonStyle ={{ backgroundColor: 'white', borderRadius: 50, marginTop: '3%', height: 35}}  
+                     containerStyle ={{ }}   
+                     icon= {{name:'step-backward', type:'font-awesome', size: 20, color: 'gray' }}
+                     title= "Voltar"
+                     titleStyle = {{color: 'gray'}}
+                />
+
+
+
+                {/*
+                    <TouchableOpacity onClick={ ()=> this.atualizarEstado(this.state.emailADM, this.state.senhaADM) }
+                           style={styles.loginButton }>
+                            <Text style={styles.loginText}> Entrar </Text>
+                    </TouchableOpacity>
+                */}
            </View>
         );
 
@@ -83,23 +110,26 @@ const styles = StyleSheet.create({
         height: '9%',
         marginTop: '3%'
     },
-    loginButton: {
-      marginTop: '20%',
+    sombraBotao: {
+      marginTop: '9%',
       marginLeft: '6%',
       width: '90%',
-      height: '15%',
+      height: '30%',
       backgroundColor: '#c001a7',
-      borderRadius: '8%',
-      boxShadow: "50 50 20 40 #000000",
+      borderRadius: 50,
       justifyContent: 'center',
-      textAlign: 'center'
+      textAlign: 'center',
+
+      ...(Platform.OS === "android") ? 
+                { elevation: 40, shadowColor: '#52006A', shadowOpacity: 0.8 } :
+                shadowBoxForIOS(10, 10, '#52006A', 0.8, 3), 
     },
+    
     loginText: {
       fontSize: 27,
       color: 'white'
     },
-    boxShadow: (Platform.OS === "android") ? { elevation: 60, boxShadow: '#52006A' } : shadowBoxForIOS(10, 10, '#52006A', 0.8, 3)  
-
+   
 });
 
 
